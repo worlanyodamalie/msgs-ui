@@ -1,9 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
 /* *{
     box-sizing: border-box; 
  } */
 
- .body{
-    font-family: 'Hind Siliguri', Helvetica, Arial, sans-serif;
+body{
+    /* font-family: 'Hind Siliguri', Helvetica, Arial, sans-serif; */
+    font-family: 'Inter', sans-serif;
  }
 
  .d-grid{
@@ -14,6 +17,8 @@
     display: grid;
     grid-template-columns: 30ch 1fr;
     min-height: 100vh;
+    font-family: 'Inter', sans-serif;
+
     /* grid-template-columns: fit-content(40ch) minmax(min(50vw , 30ch) , 1fr); */
  }
 
@@ -33,6 +38,13 @@
 
 .sidebar > ul > li {
     list-style: none;
+    padding-bottom: 1.5rem;
+}
+
+.sidebar > ul > li > a{
+    text-decoration: none;
+    color: #019161;
+    font-weight: 500;
 }
 
 .main-content{
@@ -77,4 +89,8 @@ a{
 
 .audio-box > li{
     list-style: none;
+}
+
+.border-none{
+    border: none;
 }

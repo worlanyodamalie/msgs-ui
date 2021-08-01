@@ -3,7 +3,8 @@
       <div class="msglayout">
          <div class="sidebar pa4">
            <ul>
-             <li><router-link to="/">Messages</router-link></li>
+             <li><router-link to="/">Subscriptions</router-link></li>
+              <li><router-link to="/">Subscribers</router-link></li>
            </ul>
          </div>
          <div class="main-content pa4">
