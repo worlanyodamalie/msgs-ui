@@ -2,7 +2,9 @@
 
       <div class="msglayout">
          <div class="sidebar pa4">
-           <p>Sidebar</p>
+           <ul>
+             <li><router-link to="/">Messages</router-link></li>
+           </ul>
          </div>
          <div class="main-content pa4">
            <router-view />

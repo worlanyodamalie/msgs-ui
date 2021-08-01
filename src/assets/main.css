@@ -1,6 +1,6 @@
-*{
+/* *{
     box-sizing: border-box; 
- }
+ } */
 
  .body{
     font-family: 'Hind Siliguri', Helvetica, Arial, sans-serif;
@@ -17,13 +17,22 @@
     /* grid-template-columns: fit-content(40ch) minmax(min(50vw , 30ch) , 1fr); */
  }
 
- .msgs-input{
-   border: 1px solid rgba(1, 145, 97, 0.2);
-   border-radius: 3px;
+ 
+
+ .light-green-input-border{
+    border: 1px solid rgba(1, 145, 97, 0.2);
+ }
+
+ .border-input-grey{
+    border: 1px solid #E9EFF4;
  }
 
 .sidebar{
     background: #ffffff;
+}
+
+.sidebar > ul > li {
+    list-style: none;
 }
 
 .main-content{
@@ -35,7 +44,37 @@ a{
      cursor: pointer;
  }
 
-.add-message-sec{
-    grid-template-columns: 60rem 1fr;
-    grid-gap: 2rem;
+ .gap-3{
+    gap: 3rem;
  }
+
+
+
+.add-message-sec{
+    /* grid-template-columns: 60rem 1fr; */
+    grid-template-columns: minmax(min(50vw, 30ch), 1fr) fit-content(20ch) ;
+    grid-gap: 2rem;
+}
+
+.text-green{
+    color:  #019161;
+ }
+
+ .add-message-title{
+    list-style: decimal;
+    border-bottom: 0.5px solid #DADADA;
+    padding-bottom: 0.7rem;
+ }
+
+ .bg-light-blue{
+    background: #4DA1FF;
+ }
+
+ .audio-box{
+    border: 1px solid rgba(77, 161, 255, 0.7);
+    border-radius: 3px;
+}
+
+.audio-box > li{
+    list-style: none;
+}
