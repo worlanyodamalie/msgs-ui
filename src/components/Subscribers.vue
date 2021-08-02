@@ -63,7 +63,7 @@ export default {
         getSubscribers(){
             axios
                 .get('https://sim-api.nimdee.co/subscribers' , { 
-                    headers: {"Access-Control-Allow-Origin": "*", 'Accept': 'application/json' , 'Authorization': 'Bearer 1|wZCd1ekHLlAKO3EobE6i0d22qt6Ma0R3y60tbyN2' ,  } })
+                    headers: {"Access-Control-Allow-Origin": "*", 'Accept': 'application/json' , 'Authorization': 'Bearer 1|wZCd1ekHLlAKO3EobE6i0d22qt6Ma0R3y60tbyN2' } })
                .then(
                    (response) => {
                        this.subscribers = response

@@ -36,9 +36,10 @@ export default {
         
         
         submitLogin(){
-            axios.get('https://sim-api.nimdee.co/sanctum/csrf-cookie').then( (response) => {
+            axios.get('https://sim-api.nimdee.co/sanctum/csrf-cookie')
+                  .then( (response) => {
                    console.log("csrf token" , response)
-                    
+                    // const token = response
                     axios.post(
                             'https://sim-api.nimdee.co/login'  ,
                             {
@@ -47,7 +48,7 @@ export default {
                             },
                             { 
                                     headers: { 
-                                        "Access-Control-Allow-Origin": "*", 
+                                        // "Access-Control-Allow-Origin": "*", 
                                         'Accept': 'application/json' ,
                                         } 
                                     }

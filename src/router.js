@@ -20,6 +20,12 @@ const routes = [
         component: () => import("./components/Subscribers")
     },
     {
+        path: "/market-segment",
+        alias: "/market-segment",
+        name: "market-segment",
+        component: () => import("./components/MarketSegment")
+    },
+    {
         path: "/",
         alias: "/",
         name: "login",
