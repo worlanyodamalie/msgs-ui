@@ -1,20 +1,22 @@
 <template>
 
-      <div class="msglayout">
+      <div>
+          <router-view />
+      </div> 
+      <!-- <div class="msglayout">
          <div class="sidebar pa4">
            <ul>
-             <li><router-link to="/">Subscriptions</router-link></li>
-              <li><router-link to="/">Subscribers</router-link></li>
+             <li><router-link to="/subscription">Subscriptions</router-link></li>
+              <li><router-link to="/subscribers">Subscribers</router-link></li>
            </ul>
          </div>
-         <div class="main-content pa4">
+         <div class="main-content">
            <router-view />
          </div>
 
-      </div>
+      </div> -->
 
-  <!-- <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/> -->
+  
 </template>
 
 <script>

@@ -2,9 +2,9 @@ import { createWebHistory, createRouter } from "vue-router";
 
 const routes = [
     {
-        path: "/",
-        alias: "/messages",
-        name: "messages",
+        path: "/subscription",
+        alias: "/subscription",
+        name: "subscription",
         component: () => import("./components/Messages")
     },
     {
@@ -12,6 +12,18 @@ const routes = [
         alias: "/create-message",
         name: "create-message",
         component: () => import("./components/CreateMessage")
+    },
+    {
+        path: "/subscribers",
+        alias: "/subscribers",
+        name: "subscribers",
+        component: () => import("./components/Subscribers")
+    },
+    {
+        path: "/",
+        alias: "/",
+        name: "login",
+        component: () => import("./components/Login")
     }
 ]
 

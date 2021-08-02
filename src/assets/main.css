@@ -50,6 +50,7 @@ body{
 .main-content{
      
     background: #FAFBFC;
+    padding: 2rem;
  }
 
 a{
@@ -93,4 +94,9 @@ a{
 
 .border-none{
     border: none;
+}
+
+.subscribers-tab{
+    display: grid;
+    grid-template-columns: 20rem 1fr  ;
 }
