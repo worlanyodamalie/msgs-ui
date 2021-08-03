@@ -36,33 +36,27 @@ export default {
         
         
         submitLogin(){
-            axios.get('https://sim-api.nimdee.co/sanctum/csrf-cookie')
-                  .then( (response) => {
-                   console.log("csrf token" , response)
-                    // const token = response
-                    axios.post(
-                            'https://sim-api.nimdee.co/login'  ,
-                            {
-                                "username": this.username,
-                                "password": this.password
-                            },
-                            { 
-                                    headers: { 
-                                        // "Access-Control-Allow-Origin": "*", 
-                                        'Accept': 'application/json' ,
-                                        } 
-                                    }
+            // axios.get('https://sim-api.nimdee.co/sanctum/csrf-cookie')
+            //       .then( (response) => {
+                    
+            //          } )
+            axios.post('https://sim-api.nimdee.co/login' ,{"username": this.username,"password": this.password},
+                            { headers: { 'Accept': 'application/json' } }
                         )
                         .then(
                             (response) => {
-                                console.log(response)
-                                this.$router.push({ path: '/subscription' })
+                                // console.log("Tk" , response.data)
+                                const userdata = response.data
+                                // console.log(userdata.data.token)
+                                localStorage.setItem("usertoken" , userdata.data.token)
+                                // localStorage.setItem("usertoken" , JSON.stringify(response.data))
+                                // this.$store.commit("adduser", response.data )
+                                return this.$router.push({ path: '/subscription' })
                             }
                         )
                         .catch((err) => {
                             console.log(err.response)
                         } )
-                     } )
             
         }
     }

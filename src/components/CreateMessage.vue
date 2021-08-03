@@ -225,6 +225,7 @@ import FileUpload from 'vue-upload-component'
 import moment from 'moment'
 import Multiselect from '@vueform/multiselect'
 import '@vueform/multiselect/themes/default.css'
+import axios from 'axios'
 
 export default {
     name: 'CreateMessage',
@@ -277,7 +278,7 @@ export default {
         inputFile(newFile,oldFile){
           if (newFile && !oldFile) {
                 // Add file
-                console.log("This is the new file" , newFile)
+                // console.log("This is the new file" , newFile)
                 newFile.blob = ''
                 let URL = (window.URL || window.webkitURL)
                 if (URL) {
@@ -324,10 +325,32 @@ export default {
             }
 
             console.log(formData)
-            // formData.append('message_title', this.messagetitle)
-            // formData.append('audio_file', this.files)
-            // console.log("tis.files" , this.files)
-            // console.log("form data" , formData.audio_file)
+            axios.post('https://sim-api.nimdee.co/markets/subscriptions' , 
+                         formData ,
+                         { 
+                            headers: { 
+                                'Accept': 'application/json' ,
+                                'Authorization': 'Bearer' + ' ' + localStorage.getItem("usertoken")
+                                        } 
+                            }
+                        )
+                        .then((response) => {
+                            if (response.status){
+                                console.log("here")
+                            }
+                        })
+                        .catch((err) => {
+                            err.response
+                        })
+            // axios.get('https://sim-api.nimdee.co/sanctum/csrf-cookie')
+            //       .then( (response) => {
+            //         console.log(response.data)
+                    
+                    
+            //          } )
+
+            
+           
         }
 
     }
