@@ -3,7 +3,7 @@
         <DefaultLayout>
             <div>
                 <p class="f4 fw8 text-green ">Market Segments</p>
-                <form >
+                <form enctype="multipart/form-data"  @submit.prevent="submitSegment">
                     <div class="w-40 pv3">
                         <label class="fw5 f5 mb3 dib">Title</label>
                         <input type="text" class="form-control" v-model="title" placeholder="">
@@ -11,7 +11,7 @@
                     <div class="w-40 pv3">
                         <label class="mb2 fw6 f5 dib pv3 ">Select Market Segment</label>
                         <select v-model="segmentType" class="form-control" >
-                            <option v-for="segment in segments" :key="segment.id">{{segment.type }} </option>
+                            <option v-for="segment in segments" :value="segment.id" :key="segment.id">{{segment.type }} </option>
                         </select> 
                     </div>
                     <div class="w-40 pv3">
@@ -137,7 +137,32 @@ export default {
                 this.priceaudio.push(newFile.blob)
                 // this.pricesubscription.push('')
             }
-        }    
+        } ,
+        submitSegment(){
+             
+              let formData = new FormData();
+              formData.append('title' , this.title)
+              formData.append('market_segment_type_id' , this.segmentType)
+
+              axios.post(`${process.env.VUE_APP_API_URL}/subscriptions/segments` , 
+                         formData ,
+                         { 
+                            headers: { 
+                                'Accept': 'multipart/form-data' ,
+                                'Authorization': 'Bearer' + ' ' + localStorage.getItem("usertoken")
+                                        } 
+                            }
+                        )
+                        .then((response) => {
+                            if (response.status){
+                                console.log("here")
+                                this.$router.push({ path: '/market-segment' })
+                            }
+                        })
+                        .catch((err) => {
+                            err.response
+                        })
+        }   
     }  
 }
 </script>

@@ -1,7 +1,7 @@
 <template>
     <div>
         <DefaultLayout>  
-            <form @submit.prevent="submitSubscription">
+            <form enctype="multipart/form-data"  @submit.prevent="submitSubscription">
                 <p class="f4 fw8 text-green ">New Subscription</p>
         
                 <li class="pt3 fw6 f4 add-message-title">Subscription Details</li>
@@ -18,152 +18,41 @@
                             <audio controls :src="audiosrc"></audio>
                             <a @click="remove(file)" ><img src="@/assets/img/delete.svg" alt=""></a>
                         </div>
-                        <div class="pv3">
-                            <label class="fw5 f5 dib mb3">Select duration for price audio</label>
+                        <div v-for="(segment,index) in segmenttypes"  class="pv3" :key="segment.id">
+                            <label class="fw5 f5 dib mb3">Select duration for {{segment.type}} audio</label>
                             <div class="flex gap-3">
                                 <div>
                                 <label class="mb2 fw5 f5 dib">Start duration</label>
-                                <input class="border-input-grey br2 input-reset pa2 w-100" type="number" min="0" max="60"  v-model="pricetime.start" >
+                                <input class="border-input-grey br2 input-reset pa2 w-100" type="number" min="0" max="60"  v-model="segmentduration[index][segment.id]['start']" >
                                 </div>
                                 <div>
                                 <label class="mb2 fw5 f5 dib">End duration</label>
-                                <input class="border-input-grey br2 input-reset pa2 w-100" type="number" min="0" max="60"  v-model="pricetime.end" >
+                                <input class="border-input-grey br2 input-reset pa2 w-100" type="number" min="0" max="60"  v-model="segmentduration[index][segment.id]['end']" >
                                 </div>
                             </div>
                             
                         </div>
-                        <div class="pv3">
-                            <label class="fw5 f5 dib mb3">Select duration for commodity audio</label>
-                            <div class="flex gap-3">
-                                <div>
-                                <label class="mb2 fw5 f5 dib">Start duration</label>
-                                <input class="border-input-grey br2 input-reset pa2 w-100" type="number" min="0" max="60"  v-model="commoditytime.start" >
-                                </div>
-                                <div>
-                                <label class="mb2 fw5 f5 dib">End duration</label>
-                                <input class="border-input-grey br2 input-reset pa2 w-100" type="number" min="0" max="60"  v-model="commoditytime.end" >
-                                </div>
-                            </div>
-                            
-                        </div>
-                        <div class="pv3">
-                            <label class="fw5 f5 dib mb3">Select duration for market audio</label>
-                            <div class="flex gap-3">
-                                <div>
-                                <label class="mb2 fw5 f5 dib">Start duration</label>
-                                <input class="border-input-grey br2 input-reset pa2 w-100" type="number" min="0" max="60"  v-model="markettime.start" >
-                                </div>
-                                <div>
-                                <label class="mb2 fw5 f5 dib">End duration</label>
-                                <input class="border-input-grey br2 input-reset pa2 w-100" type="number" min="0" max="60"  v-model="markettime.end" >
-                                </div>
-                            </div>
-                            
-                        </div>
+                       
                     </li>
                     
                 </ul> 
                 <div v-else>
                     <file-upload  class="f5 link  br2 ph3 pv3 tc white bg-light-blue w-20"
-                            post-action=""
+                            
                             accept="audio/*"
                             v-model="files"
-                            ref="upload"
+                            ref="audio"
                             extensions="mp3"
                             @input-file="inputFile"> 
                             Add audio file 
                     </file-upload>
                 </div>
-                
-
+                <!-- <input type="file" id="file" ref="audiofile" accept="audio/*" @change="handleFileUpload"/> -->
+                <!-- <input type="file"  ref="audiofile" accept="audio/*" @change="selectedFile"> -->
                 <!-- <button class="w-10 mt2" @click.prevent="upload.active = true">upload</button>   -->
                         
             </div>
-            <!-- <li class="pt3 fw6 f4 add-message-title">Upload Marget segment audio</li>
-            <div>
-                <div class="flex flex-column pv3">
-                     
-                    <label class="mb2 fw6 f5 dib">Market price audio</label>
-                    <div>
-                        <ul v-if="prices.length" class="audio-box pv4 ph3">
-                          <li v-for="price in prices" :key="price.id"> 
-                               <label class="fw5 f5 mb3 dib">{{price.name}}</label>
-                               <div class="flex gap-3 pb2 items-center">
-                                    <audio controls :src="segmentaudio.price"></audio>
-                                    <a @click="remove(file)" ><img src="@/assets/img/delete.svg" alt=""></a>
-                                </div>
-                          </li>
-                        </ul>
-                        <file-upload v-else class="f5 link  br2 ph3 pv3 tc white bg-light-blue w-20"
-                                    post-action=""
-                                    accept="audio/*"
-                                    v-model="prices"
-                                    ref="priceupload"
-                                    extensions="mp3"
-                                    input-id="file2"
-                                    @input-file="segmentUpload"> 
-                                    Add audio file 
-                        </file-upload>
-                    </div>
-                    
-                    
-                </div>
-              <div class="flex flex-column pv3"> 
-                     
-                    <label class="mb2 fw6 f5 dib">Commodity price audio</label>
-                    <div>
-                        <ul v-if="prices.length" class="audio-box pv4 ph3">
-                          <li v-for="price in prices" :key="price.id"> 
-                               <label class="fw5 f5 mb3 dib">{{price.name}}</label>
-                               <div class="flex gap-3 pb2 items-center">
-                                    <audio controls :src="segmentaudio.price"></audio>
-                                    <a @click="remove(file)" ><img src="@/assets/img/delete.svg" alt=""></a>
-                                </div>
-                          </li>
-                        </ul>
-                        <file-upload v-else class="f5 link  br2 ph3 pv3 tc white bg-light-blue w-20"
-                                    post-action=""
-                                    accept="audio/*"
-                                    v-model="prices"
-                                    ref="priceupload"
-                                    extensions="mp3"
-                                    input-id="file2"
-                                    @input-file="segmentUpload"> 
-                                    Add audio file 
-                        </file-upload>
-                    </div>
-                    
-                    
-                </div>
-                <div class="flex flex-column pv3">
-                     
-                    <label class="mb2 fw6 f5 dib">Market audio</label>
-                    <div>
-                        <ul v-if="prices.length" class="audio-box pv4 ph3">
-                          <li v-for="price in prices" :key="price.id"> 
-                               <label class="fw5 f5 mb3 dib">{{price.name}}</label>
-                               <div class="flex gap-3 pb2 items-center">
-                                    <audio controls :src="segmentaudio.price"></audio>
-                                    <a @click="remove(file)" ><img src="@/assets/img/delete.svg" alt=""></a>
-                                </div>
-                          </li>
-                        </ul>
-                        <file-upload v-else class="f5 link  br2 ph3 pv3 tc white bg-light-blue w-20"
-                                    post-action=""
-                                    accept="audio/*"
-                                    v-model="prices"
-                                    ref="priceupload"
-                                    extensions="mp3"
-                                    input-id="file2"
-                                    @input-file="segmentUpload"> 
-                                    Add audio file 
-                        </file-upload>
-                    </div>
-                    
-                    
-                </div> -->
-               
-            <!-- </div> --> 
+            
 
             <li class="pt3 fw6 f4 add-message-title">Schedule Time</li>
             <div class="flex gap-3 pv4">
@@ -243,27 +132,10 @@ export default {
            days: null,
            audiosrc: null,
            messagetitle: null,
-           pricetime: {
-              start: null,
-              end: null 
-            },
-            commoditytime: {
-              start: null,
-              end: null 
-            },
-            markettime: {
-              start: null,
-              end: null 
-            },
-            segmentaudio:{
-               price: null,
-               market: null,
-               commodity: null
-            },
+           segmenttypes: [],
+           segmentduration: [],
            files: [],
-           prices: [],
-           markets: [],
-           commodities: [],
+           attachment: null,
            options: [
                'Monday',
                'Tuesday',
@@ -274,62 +146,90 @@ export default {
            ]
        }
     } ,
+    created(){
+        this.getSegmentTypes()
+    },
     methods: {
+        handleFileUpload(){
+            console.log("second file upload",this.$refs.audiofile.files[0])
+        },
         inputFile(newFile,oldFile){
           if (newFile && !oldFile) {
                 // Add file
-                // console.log("This is the new file" , newFile)
+                console.log("This is the new file" , newFile.file)
                 newFile.blob = ''
                 let URL = (window.URL || window.webkitURL)
                 if (URL) {
                     newFile.blob = URL.createObjectURL(newFile.file)
                     this.audiosrc = newFile.blob
                 }
+                
+                
+                this.segmenttypes.map((segment) => {
+                    let durationObj = {}
+                      durationObj[segment.id] = {start: null , end: null }
+                    
+                    this.segmentduration.push(durationObj)
+                } )
+
+                this.attachment = newFile.file
+
+
 
 
             }
         },
-        // segmentUpload(newFile){
-        //     console.log("new file" , newFile)
-        //     if (newFile) {
-        //         // Add file
-        //                 newFile.blob = ''
-        //                 let URL = (window.URL || window.webkitURL)
-        //                 if (URL) {
-        //                     console.log("This is file" , newFile.file)
-        //                     newFile.blob = URL.createObjectURL(newFile.file)
-        //                     this.segmentaudio.price = newFile.blob
-        //                 }
+        uploadaction(inputfile){
+            console.log("This is the input action" , inputfile)
+        },
+        getSegmentTypes(){
+            axios.get( 'https://sim-api.nimdee.co/markets/segment-types' , 
+                        { 
+                            headers: { 
+                                // "Access-Control-Allow-Origin": "*", 
+                                'Accept': 'application/json' ,
+                                'Authorization': 'Bearer' + ' ' + localStorage.getItem("usertoken")
+                                        } 
+                            }
 
-
-        //             }
-        // },
-
+            )
+            .then((response) => {
+                return  this.segmenttypes = response.data.data
+            })
+            .catch((err) => {
+                                console.log("error" , err.response)
+                            })
+        },
         remove(){
             this.files.pop()
             // console.log("remove" , file)
             // console.log(this.files.pop())
         },
         submitSubscription(){
-            const formData = {
-                'title' : this.messagetitle,
-                "audio_file" : this.files,
-                "schedule_start_date": this.scheduledate,
-                "schedule_start_time": this.scheduletime,
-                "schedule_end_date": this.scheduleEnddate,
-                "schedule_end_time": this.scheduleEndtime,
-                "days_to_send": this.days,
-                "commodity_duration": this.commoditytime,
-                "market_duration": this.markettime,
-                "price_duration": this.pricetime
-            }
+            
+            let formData = new FormData();
+            formData.append('title' , this.messagetitle)
+            this.segmentduration.map((duration,key) => {
+                formData.append('market_segment_types['+ this.segmenttypes[key].id + '][start]' , duration[this.segmenttypes[key].id]['start'])
+                formData.append('market_segment_types['+ this.segmenttypes[key].id + '][end]' , duration[this.segmenttypes[key].id]['end'])
+               
+            })
+            formData.append('send_on' , this.scheduledate)
+            formData.append('send_at' , this.scheduletime)
+            formData.append('end_on' , this.scheduleEnddate)
+            formData.append('end_at' , this.scheduleEndtime)
+            formData.append('days' , this.days) 
+            formData.append('audio' , this.attachment)
 
-            console.log(formData)
-            axios.post('https://sim-api.nimdee.co/markets/subscriptions' , 
+            // console.log("form data" , Array.from(formData.entries()))
+           
+
+            // 'Accept': multipart/form-data
+            axios.post(`${process.env.VUE_APP_API_URL}/markets/subscriptions` , 
                          formData ,
                          { 
                             headers: { 
-                                'Accept': 'application/json' ,
+                                'Accept': 'multipart/form-data' ,
                                 'Authorization': 'Bearer' + ' ' + localStorage.getItem("usertoken")
                                         } 
                             }
@@ -337,6 +237,7 @@ export default {
                         .then((response) => {
                             if (response.status){
                                 console.log("here")
+                                this.$router.push({ path: '/subscription' })
                             }
                         })
                         .catch((err) => {

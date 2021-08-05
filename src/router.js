@@ -26,6 +26,12 @@ const routes = [
         component: () => import("./components/MarketSegment")
     },
     {
+        path: "/add-subscriber",
+        alias: "/add-subscriber",
+        name: "add-subscriber",
+        component: () => import("./components/AddSubscriber")
+    },
+    {
         path: "/",
         alias: "/",
         name: "login",

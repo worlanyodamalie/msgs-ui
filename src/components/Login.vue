@@ -36,12 +36,22 @@ export default {
         
         
         submitLogin(){
-            // axios.get('https://sim-api.nimdee.co/sanctum/csrf-cookie')
+            
+            // axios.get(`${process.env.VUE_APP_API_URL}/sanctum/csrf-cookie`)
             //       .then( (response) => {
+            //              console.log(response)
+                         
                     
             //          } )
-            axios.post('https://sim-api.nimdee.co/login' ,{"username": this.username,"password": this.password},
-                            { headers: { 'Accept': 'application/json' } }
+            console.log(process.env.VUE_APP_API_URL)
+             axios.post(`${process.env.VUE_APP_API_URL}/login` ,{"username": this.username,"password": this.password},
+                            { 
+                                headers: { 
+                                    'Accept': 'application/json',
+                                    'Access-Control-Allow-Origin': '*' 
+                                } 
+                                
+                                }
                         )
                         .then(
                             (response) => {
@@ -58,6 +68,8 @@ export default {
                             console.log(err.response)
                         } )
             
+            
+            
         }
     }
 }
@@ -65,7 +77,7 @@ export default {
 <style lang="css" scoped>
    .login-wrapper{
        background: #FAFBFC;
-       height: 100vh;
+       min-height: 100vh;
    }
 
    .login-form{
