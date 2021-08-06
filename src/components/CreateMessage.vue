@@ -214,17 +214,19 @@ export default {
                 formData.append('market_segment_types['+ this.segmenttypes[key].id + '][end]' , duration[this.segmenttypes[key].id]['end'])
                
             })
-            formData.append('send_on' , this.scheduledate)
-            formData.append('send_at' , this.scheduletime)
+            formData.append('sent_on' , this.scheduledate)
+            formData.append('sent_at' , this.scheduletime)
             formData.append('end_on' , this.scheduleEnddate)
             formData.append('end_at' , this.scheduleEndtime)
-            formData.append('days' , this.days) 
+            
+            this.days.map((day) => {
+               formData.append('days[]' , day) 
+            })
+            
             formData.append('audio' , this.attachment)
 
             // console.log("form data" , Array.from(formData.entries()))
            
-
-            // 'Accept': multipart/form-data
             axios.post(`${process.env.VUE_APP_API_URL}/markets/subscriptions` , 
                          formData ,
                          { 
@@ -241,17 +243,8 @@ export default {
                             }
                         })
                         .catch((err) => {
-                            err.response
-                        })
-            // axios.get('https://sim-api.nimdee.co/sanctum/csrf-cookie')
-            //       .then( (response) => {
-            //         console.log(response.data)
-                    
-                    
-            //          } )
-
-            
-           
+                            console.log(err.response)
+                        })           
         }
 
     }

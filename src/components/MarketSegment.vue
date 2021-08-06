@@ -3,7 +3,7 @@
         <DefaultLayout>
             <div>
                 <p class="f4 fw8 text-green ">Market Segments</p>
-                <form enctype="multipart/form-data"  @submit.prevent="submitSegment">
+                <form   @submit.prevent="submitSegment">
                     <div class="w-40 pv3">
                         <label class="fw5 f5 mb3 dib">Title</label>
                         <input type="text" class="form-control" v-model="title" placeholder="">
@@ -22,6 +22,7 @@
                                 :searchable="true"
                                 :createTag="true"
                                 :options="subscriptions"
+                                ref="subs"
                                 class="pv2"
                         /> 
                     </div>
@@ -29,28 +30,21 @@
                         <label class="mb2 fw6 f5 dib pv3 ">Upload Audio Message</label>
                        <ul v-if="prices.length" class="audio-box pv4 ph3">
                             <li v-for="(price , key ) in prices" :key="key">
-                                <div class="flex items-center gap-3 pb4">
-                                    
-                                    
+                                <div class="flex items-center gap-3 pb4">                                    
                                     <div class="flex flex-column">
                                         <label class="fw5 f5 mb3 dib">{{price.name}}</label>
                                         <audio controls :src="priceaudio"></audio>
-  
-                                    </div>
-                                    
-                                    
+                                    </div>    
                                 </div>
                             </li>
                         </ul>
-                        <div class="flex flex-column"> 
+                        <div v-else class="flex flex-column"> 
                             <file-upload  class="f5 link  br2 ph3 pv3 tc white bg-light-blue w-20"
-                                    post-action=""
+                                   
                                     accept="audio/*"
                                     v-model="prices"
                                     ref="segmentupload"
                                     extensions="mp3"
-                                    
-                                    :multiple="true"
                                     @input-file="priceSrc"> 
                                     Add audio file 
                             </file-upload>
@@ -88,24 +82,40 @@ export default {
             segmentType: '',
             prices: [],
             priceaudio:[],
-            subscriptions: [
-                "Market Subscriptions",
-                "Commodity Subscriptions"
-            ],
+            subscriptions:{
+                "dcb97e2c-d466-4843-89af-9e31b7cd6e65" :  "Commodity Subscriptions" 
+                  
+            },
             selectedsubscriptions: null,
-            // pricesubscription:[],
-            title: ''
+            attachment: null,
+            title: '',
+            market_price: []
+
         }
     } ,
     created(){
         this.getSegments()
+        this.getSubscriptions()
     },
     methods: {
+        getSubscriptions(){
+            axios.get(`${process.env.VUE_APP_API_URL}/markets/subscriptions` ,
+                       { 
+                            headers: { 
+                                'Accept': 'application/json' ,
+                                'Authorization': 'Bearer' + ' ' + localStorage.getItem("usertoken")
+                                        } 
+                            }
+                        )
+                 .then((response) => {
+                     console.log(response)
+                 })
+                 .catch()
+        },
         getSegments(){
                 // axios.defaults.withCredentials = true;
                 // const token =  this.$store.getters.getUser.data.token
-                axios.get('https://sim-api.nimdee.co/markets/segment-types' , 
-                       
+                axios.get(`${process.env.VUE_APP_API_URL}/markets/segment-types` , 
                          { 
                             headers: { 
                                 // "Access-Control-Allow-Origin": "*", 
@@ -115,7 +125,6 @@ export default {
                             }
                         )
                             .then((response) => {
-                                console.log("segment" , response.data.data)
                                 return  this.segments = response.data.data
 
                             })
@@ -137,14 +146,30 @@ export default {
                 this.priceaudio.push(newFile.blob)
                 // this.pricesubscription.push('')
             }
+            this.attachment = newFile.file
         } ,
         submitSegment(){
-             
+              
+              let subs = [];
+            //   console.log("Subs" , Array.from(this.selectedsubscriptions))
+            //   console.log(this.$refs.subs)
+              this.selectedsubscriptions.map((selected) => {
+                  subs.push(selected)
+              })
+
+              console.log("subs array" , subs)
               let formData = new FormData();
               formData.append('title' , this.title)
               formData.append('market_segment_type_id' , this.segmentType)
+              formData.append('audio' , this.attachment)
+              
+              subs.map((sub) => {
+                  formData.append('market_price_ids[]' , sub )
+              })
 
-              axios.post(`${process.env.VUE_APP_API_URL}/subscriptions/segments` , 
+              
+              console.log(Array.from(formData.entries()))
+              axios.post(`${process.env.VUE_APP_API_URL}/markets/subscriptions/segments`  , 
                          formData ,
                          { 
                             headers: { 
@@ -156,11 +181,11 @@ export default {
                         .then((response) => {
                             if (response.status){
                                 console.log("here")
-                                this.$router.push({ path: '/market-segment' })
+                                this.$router.go()
                             }
                         })
                         .catch((err) => {
-                            err.response
+                            console.log(err.response)
                         })
         }   
     }  

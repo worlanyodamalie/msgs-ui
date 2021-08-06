@@ -40,6 +40,8 @@
 </template>
 <script>
 import DefaultLayout from './Layout/DefaultLayout.vue'
+import axios from 'axios'
+
 export default {
   name: 'Messages',
   props: {
@@ -50,8 +52,27 @@ export default {
   },
   data(){
     return {
-       isEmpty: false
+       isEmpty: true
     }
+  },
+  created(){
+    this.getSubscriptions()
+  },
+  methods: {
+     getSubscriptions(){
+            axios.get(`${process.env.VUE_APP_API_URL}/markets/subscriptions` ,
+                       { 
+                            headers: { 
+                                'Accept': 'application/json' ,
+                                'Authorization': 'Bearer' + ' ' + localStorage.getItem("usertoken")
+                                        } 
+                            }
+                        )
+                 .then((response) => {
+                     console.log(response)
+                 })
+                 .catch()
+        }
   }
 }
 </script>
