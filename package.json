@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@vueform/multiselect": "^2.1.0",
+    "apexcharts": "^3.27.3",
     "axios": "^0.21.1",
     "core-js": "^3.6.5",
     "moment": "^2.29.1",
@@ -16,6 +17,7 @@
     "vue": "^3.0.0",
     "vue-router": "4",
     "vue-upload-component": "^3.0.50",
+    "vue3-apexcharts": "^1.4.1",
     "vuex": "4"
   },
   "devDependencies": {

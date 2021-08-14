@@ -36,6 +36,12 @@ const routes = [
         alias: "/",
         name: "login",
         component: () => import("./components/Login")
+    },
+    {
+        path: "/dashboard",
+        alias: "/dashboard",
+        name: "dashboard",
+        component: () => import("./components/Dashboard")
     }
 ]
 
